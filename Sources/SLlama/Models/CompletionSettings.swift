@@ -96,7 +96,7 @@ public struct CompletionSettings: Codable {
     /// Change the system prompt (initial prompt of all slots), this is useful for chat applications.
     public let system_prompt: SystemPrompt?
     
-    init(prompt: String? = nil, temperature: Double? = nil, top_k: Int? = nil, top_p: Double? = nil, n_predict: Int? = nil, n_keep: Int? = nil, stream: Bool? = nil, stop: [String]? = nil, tfs_z: Double? = nil, typical_p: Double? = nil, repeat_penalty: Double? = nil, repeat_last_n: Int? = nil, penalize_nl: Bool? = nil, presence_penalty: Double? = nil, frequency_penalty: Double? = nil, mirostat: Int? = nil, mirostat_tau: Int? = nil, mirostat_eta: Double? = nil, grammer: String? = nil, seed: Int? = nil, ignore_eos: Bool? = nil, logit_bias: [[Int]]? = nil, n_probs: Int? = nil, image_data: [String]? = nil, slot_id: Int? = nil, cache_prompt: Bool? = nil, system_prompt: SystemPrompt? = nil) {
+    public init(prompt: String? = nil, temperature: Double? = nil, top_k: Int? = nil, top_p: Double? = nil, n_predict: Int? = nil, n_keep: Int? = nil, stream: Bool? = nil, stop: [String]? = nil, tfs_z: Double? = nil, typical_p: Double? = nil, repeat_penalty: Double? = nil, repeat_last_n: Int? = nil, penalize_nl: Bool? = nil, presence_penalty: Double? = nil, frequency_penalty: Double? = nil, mirostat: Int? = nil, mirostat_tau: Int? = nil, mirostat_eta: Double? = nil, grammer: String? = nil, seed: Int? = nil, ignore_eos: Bool? = nil, logit_bias: [[Int]]? = nil, n_probs: Int? = nil, image_data: [String]? = nil, slot_id: Int? = nil, cache_prompt: Bool? = nil, system_prompt: SystemPrompt? = nil) {
         self.prompt = prompt
         self.temperature = temperature
         self.top_k = top_k
