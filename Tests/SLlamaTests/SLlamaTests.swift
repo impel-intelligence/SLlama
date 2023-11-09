@@ -50,7 +50,7 @@ final class SLlamaTests: XCTestCase {
 extension SLlamaTests: ClientStreamDelegate {
     func didReceiveModel<Model>(model: Model) where Model : Codable {
         guard let model = model as? CompletionResult else { return }
-        print(model.content, terminator: "")
+        print(model.content)
     }
     
     func didFinish(error: Error?) {
