@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  Decodable+DefaultDecode.swift
+//  SLlama
 //
 //  Created by Taylor Lineman on 6/12/23.
 //

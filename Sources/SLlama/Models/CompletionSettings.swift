@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  CompletionSettings.swift
+//  SLlama
 //
 //  Created by Taylor Lineman on 11/8/23.
 //
