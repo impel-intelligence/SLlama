@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct PromptProcessor {
-    static let SYSTEM_MESSAGE_INSERT = "{{SYSTEM}}"
-    static let USER_MESSAGE_INSERT = "{{USER}}"
+public struct PromptProcessor {
+    public static let SYSTEM_MESSAGE_INSERT = "{{SYSTEM}}"
+    public static let USER_MESSAGE_INSERT = "{{USER}}"
     
-    static func prepareTemplate(template: String, systemPrompt: String, userPrompt: String) -> String {
+    public static func prepareTemplate(template: String, systemPrompt: String, userPrompt: String) -> String {
         let editedUserPrompt = userPrompt.replacingOccurrences(of: "\n", with: " ")
         var filledTemplate = template
         filledTemplate = template.replacingOccurrences(of: SYSTEM_MESSAGE_INSERT, with: systemPrompt)
