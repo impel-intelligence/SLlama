@@ -14,6 +14,16 @@ final class SLlamaTests: XCTestCase {
 
     """
     
+    func testEmbeddings() async throws {
+        let client = Client(baseURLString: "http://127.0.0.1:8080")
+        
+        let settings: EmbeddingSettings = .init(content: "This is some contents to embed")
+        
+        let request = LlamaRequests.embedding(settings)
+        
+        _ = try await client.run(request)
+    }
+    
     func testCompletionEndpoint() async throws {
         let client = Client(baseURLString: "http://127.0.0.1:8080")
 
@@ -22,15 +32,14 @@ final class SLlamaTests: XCTestCase {
 
         let request = LlamaRequests.completion(settings)
 
-        let response = try await client.run(request)
-
-        print(response.content)
+        _ = try await client.run(request)
     }
     
     func testCompletionStreaming() async throws {
-        let client = Client(baseURLString: "http://127.0.0.1:8080")
+        let client = Client(baseURLString: "http://127.0.0.1:24445")
         
         let preparedPrompt = PromptProcessor.prepareTemplate(template: template, systemPrompt: "A chat between a curious human and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the human's questions.", userPrompt: "Hello Assistant")
+        
         let settings: CompletionSettings = .init(prompt: preparedPrompt, temperature: 0.7, n_predict: 256, stream: true)
         
         let request = LlamaRequests.completion(settings)
@@ -50,7 +59,7 @@ final class SLlamaTests: XCTestCase {
 extension SLlamaTests: ClientStreamDelegate {
     func didReceiveModel<Model>(model: Model) where Model : Codable {
         guard let model = model as? CompletionResult else { return }
-        print(model.content)
+        print(model.content, terminator: "")
     }
     
     func didFinish(error: Error?) {

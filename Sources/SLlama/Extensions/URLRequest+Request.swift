@@ -13,6 +13,8 @@ extension URLRequest {
 
         httpMethod = request.method.name
         httpBody = try request.method.httpBody
+        
+        addValue("application/json", forHTTPHeaderField: "Content-Type")
     }
 }
 
