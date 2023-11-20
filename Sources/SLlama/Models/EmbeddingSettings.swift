@@ -10,4 +10,8 @@ import Foundation
 public struct EmbeddingSettings: Codable {
     /// Text to process
     public let content: String
+    
+    public init(content: String) {
+        self.content = content
+    }
 }
