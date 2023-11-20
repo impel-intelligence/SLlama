@@ -9,5 +9,5 @@ import Foundation
 
 public struct EmbeddingSettings: Codable {
     /// Text to process
-    let content: String
+    public let content: String
 }
