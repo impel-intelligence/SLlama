@@ -34,7 +34,7 @@ final class SLlamaTests: XCTestCase {
 
         _ = try await client.run(request)
     }
-    
+
     func testCompletionStreaming() async throws {
         let client = Client(baseURLString: "http://127.0.0.1:24445")
         
