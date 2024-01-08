@@ -7,11 +7,6 @@
 
 import Foundation
 
-public protocol ClientStreamDelegate {
-    func didReceiveModel<Model: Codable>(model: Model)
-    func didFinish(error: Error?)
-}
-
 public class ClientStream<Model: Codable>: NSObject, URLSessionDataDelegate {
     public enum StreamStatus {
         case none
@@ -24,9 +19,11 @@ public class ClientStream<Model: Codable>: NSObject, URLSessionDataDelegate {
     private var session: URLSession! = nil
     private var task: URLSessionTask? = nil
     
-    public var delegate: ClientStreamDelegate?
     public var status: StreamStatus = .none
     
+    public var didReceiveModel: ((_ session: ClientStream, _ model: Model) -> ())? = nil
+    public var didFinish: ((_ session: ClientStream, _ error: Error?) -> ())? = nil
+
     init(request: URLRequest) {
         super.init()
         
@@ -55,9 +52,9 @@ public class ClientStream<Model: Codable>: NSObject, URLSessionDataDelegate {
 
         guard let stringData = string.data(using: .utf8) else { return }
 
-        let model = try? Model.decode(data: stringData)
+        guard let model = try? Model.decode(data: stringData) else { return }
         
-        delegate?.didReceiveModel(model: model)
+        didReceiveModel?(self, model)
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
@@ -68,6 +65,6 @@ public class ClientStream<Model: Codable>: NSObject, URLSessionDataDelegate {
         }
         
         status = .finished
-        delegate?.didFinish(error: error)
+        didFinish?(self, error)
     }
 }

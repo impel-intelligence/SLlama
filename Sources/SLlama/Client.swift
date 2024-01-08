@@ -16,7 +16,7 @@ public struct Client {
         self.session = session
     }
     
-    public func stream<Model>(_ request: Request<Model>) throws -> ClientStream<Model> {
+    public func getStream<Model>(_ request: Request<Model>) throws -> ClientStream<Model> {
         guard let requestComponents = URLComponents(baseURL: baseURLString, request: request) else {
             throw SLlamaClientError.invalidBaseURL
         }
@@ -26,8 +26,36 @@ public struct Client {
         }
         
         let urlRequest = try URLRequest(url: url, request: request)
+        
+        return ClientStream<Model>(request: urlRequest)
+    }
+    
+    public func stream<Model>(_ request: Request<Model>) throws -> AsyncThrowingStream<Model, Error> {
+        AsyncThrowingStream { continuation in
+            do {
+                guard let requestComponents = URLComponents(baseURL: baseURLString, request: request) else {
+                    throw SLlamaClientError.invalidBaseURL
+                }
+
+                guard let url = requestComponents.url else {
+                    throw SLlamaClientError.invalidBaseURL
+                }
                 
-        return ClientStream.init(request: urlRequest)
+                let urlRequest = try URLRequest(url: url, request: request)
+                let stream = ClientStream<Model>(request: urlRequest)
+                stream.didReceiveModel = { _, model in
+                    continuation.yield(model)
+                }
+                
+                stream.didFinish = { stream, error in
+                    continuation.finish(throwing: error)
+                }
+                
+                stream.resumeStream()
+            } catch {
+                continuation.finish(throwing: error)
+            }
+        }
     }
     
     public func run<Model>(_ request: Request<Model>) async throws -> Model {
