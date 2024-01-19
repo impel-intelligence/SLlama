@@ -78,7 +78,7 @@ public struct Client {
         do {
             return try Model.decode(data: taskData)
         } catch {
-            throw SLlamaClientError.invalidModel(error: error)
+            throw SLlamaClientError.invalidModel(error: error, content: taskData)
         }
     }
 }

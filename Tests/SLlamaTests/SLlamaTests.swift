@@ -75,17 +75,17 @@ final class SLlamaTests: XCTestCase {
 //    }
 }
 
-extension SLlamaTests: ClientStreamDelegate {
-    func didReceiveModel<Model>(model: Model) where Model : Codable {
-        guard let model = model as? CompletionResult else { return }
-        print(model.content, terminator: "")
-    }
-    
-    func didFinish(error: Error?) {
-        if let error {
-            print("Finished with error: \(error)")
-        } else {
-            print("Finished with no error")
-        }
-    }
-}
+//extension SLlamaTests: ClientStreamDelegate {
+//    func didReceiveModel<Model>(model: Model) where Model : Codable {
+//        guard let model = model as? CompletionResult else { return }
+//        print(model.content, terminator: "")
+//    }
+//    
+//    func didFinish(error: Error?) {
+//        if let error {
+//            print("Finished with error: \(error)")
+//        } else {
+//            print("Finished with no error")
+//        }
+//    }
+//}

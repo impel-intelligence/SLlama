@@ -10,6 +10,6 @@ import Foundation
 public enum SLlamaClientError: LocalizedError {
     case invalidBaseURL
     case invalidURLResponse
-    case invalidModel(error: Error)
+    case invalidModel(error: Error, content: Data)
 }
 
