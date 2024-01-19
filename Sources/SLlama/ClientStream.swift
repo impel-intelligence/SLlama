@@ -16,36 +16,25 @@ public class ClientStream<Model: Codable>: NSObject, URLSessionDataDelegate {
         case finished
     }
     
-    private var session: URLSession! = nil
-    private var task: URLSessionTask? = nil
-    
+    private lazy var session: URLSession = {
+        let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+        return session
+    }()
+    private let urlRequest: URLRequest
+
     public var status: StreamStatus = .none
     
     public var didReceiveModel: ((_ session: ClientStream, _ model: Model) -> ())? = nil
     public var didFinish: ((_ session: ClientStream, _ error: Error?) -> ())? = nil
 
     init(request: URLRequest) {
-        super.init()
+        urlRequest = request
+    }
+    
+    public func start() {
+        self.session.dataTask(with: urlRequest).resume()
+    }
         
-        self.session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
-        self.task = self.session.dataTask(with: request)
-    }
-    
-    public func resumeStream() {
-        task?.resume()
-        status = .started
-    }
-    
-    public func cancelStream() {
-        task?.cancel()
-        status = .canceled
-    }
-    
-    public func suspendStream() {
-        task?.suspend()
-        status = .suspended
-    }
-    
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         guard var string = String(data: data, encoding: .utf8) else { return }
         string = string.replacingOccurrences(of: "data: ", with: "")

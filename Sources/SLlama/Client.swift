@@ -51,7 +51,7 @@ public struct Client {
                     continuation.finish(throwing: error)
                 }
                 
-                stream.resumeStream()
+                stream.start()
             } catch {
                 continuation.finish(throwing: error)
             }
